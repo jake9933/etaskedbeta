@@ -1,0 +1,796 @@
+<main class="col-xl-6 push-xl-3 col-lg-12 push-lg-0 col-md-12 col-sm-12 col-xs-12">
+
+	<div class="ui-block">
+		<div class="news-feed-form">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
+
+						<svg class="etsk-status-icon"><use xlink:href="icons/icons.svg#etsk-status-icon"></use></svg>
+
+						<span>Status</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link inline-items" data-toggle="tab" href="#profile-1" role="tab" aria-expanded="false">
+
+						<svg class="etsk-multimedia-icon"><use xlink:href="icons/icons.svg#etsk-multimedia-icon"></use></svg>
+
+						<span>Picture</span>
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link inline-items" data-toggle="tab" href="#blog" role="tab" aria-expanded="false">
+						<svg class="etsk-blog-icon"><use xlink:href="icons/icons.svg#etsk-blog-icon"></use></svg>
+
+						<span>Project</span>
+					</a>
+				</li>
+			</ul>
+
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div class="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
+					<form action="/posts" method="post">
+						<div class="author-thumb">
+							<img src="img/author-page.jpg" alt="author">
+						</div>
+						<div class="form-group with-icon label-floating">
+							<label class="control-label">Share what you are thinking here...</label>
+							<textarea class="form-control" placeholder="" name="body"></textarea>
+						</div>
+						<div class="add-options-message">
+							<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo" data-toggle="tooltip" data-placement="top" title="" data-original-title="ADD PHOTOS">
+								<svg class="etsk-camera-icon"><use xlink:href="icons/icons.svg#etsk-camera-icon"></use></svg>
+							</a>
+							<a href="#" class="options-message" data-toggle="tooltip" data-placement="top" title="" data-original-title="TAG YOUR Connections">
+								<svg class="etsk-computer-icon"><use xlink:href="icons/icons.svg#etsk-computer-icon"></use></svg>
+							</a>
+
+							<a href="#" class="options-message" data-toggle="tooltip" data-placement="top" title="" data-original-title="ADD LOCATION">
+								<svg class="etsk-small-pin-icon"><use xlink:href="icons/icons.svg#etsk-small-pin-icon"></use></svg>
+							</a>
+
+							<button type="submit" class="btn btn-primary btn-md-2">Post Status</button> {{!--
+							<button class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>--}}
+
+						</div>
+
+					</form>
+				</div>
+
+				<div class="tab-pane" id="profile-1" role="tabpanel" aria-expanded="true">
+					<form>
+						<div class="author-thumb">
+							<img src="img/author-page.jpg" alt="author">
+						</div>
+						<div class="form-group with-icon label-floating">
+							<label class="control-label">Share what you are thinking here...</label>
+							<textarea class="form-control" placeholder=""></textarea>
+						</div>
+						<div class="add-options-message">
+							<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo" data-toggle="tooltip" data-placement="top" title="" data-original-title="ADD PHOTOS">
+								<svg class="etsk-camera-icon"><use xlink:href="icons/icons.svg#etsk-camera-icon"></use></svg>
+							</a>
+							<a href="#" class="options-message" data-toggle="tooltip" data-placement="top" title="" data-original-title="TAG YOUR Connections">
+								<svg class="etsk-computer-icon"><use xlink:href="icons/icons.svg#etsk-computer-icon"></use></svg>
+							</a>
+
+							<a href="#" class="options-message" data-toggle="tooltip" data-placement="top" title="" data-original-title="ADD LOCATION">
+								<svg class="etsk-small-pin-icon"><use xlink:href="icons/icons.svg#etsk-small-pin-icon"></use></svg>
+							</a>
+
+							<button class="btn btn-primary btn-md-2">Post Status</button>
+							<button class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
+
+						</div>
+
+					</form>
+				</div>
+
+				<div class="tab-pane" id="blog" role="tabpanel" aria-expanded="true">
+					<form>
+						<div class="author-thumb">
+							<img src="img/author-page.jpg" alt="author">
+						</div>
+						<div class="form-group with-icon label-floating">
+							<label class="control-label">Share what you are thinking here...</label>
+							<textarea class="form-control" placeholder=""></textarea>
+						</div>
+						<div class="add-options-message">
+							<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo" data-toggle="tooltip" data-placement="top" title="" data-original-title="ADD PHOTOS">
+								<svg class="etsk-camera-icon"><use xlink:href="icons/icons.svg#etsk-camera-icon"></use></svg>
+							</a>
+							<a href="#" class="options-message" data-toggle="tooltip" data-placement="top" title="" data-original-title="TAG YOUR Connections">
+								<svg class="etsk-computer-icon"><use xlink:href="icons/icons.svg#etsk-computer-icon"></use></svg>
+							</a>
+
+							<a href="#" class="options-message" data-toggle="tooltip" data-placement="top" title="" data-original-title="ADD LOCATION">
+								<svg class="etsk-small-pin-icon"><use xlink:href="icons/icons.svg#etsk-small-pin-icon"></use></svg>
+							</a>
+
+							<button class="btn btn-primary btn-md-2">Post Status</button>
+							<button class="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
+
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	{{!--every post--}} {{reverse posts}} {{#each posts}}
+	<div class="ui-block">
+		<article class="hentry post has-post-thumbnail">
+
+			<div class="post__author author vcard inline-items">
+				<img src="img/author-page.jpg" alt="author">
+
+				<div class="author-date">
+					{{!--PLACEHOLDER: {{user_id}}--}}
+					<a class="h6 post__author-name fn" href="#">David Scott</a>
+					<div class="post__date">
+						<time class="published" datetime="2004-07-24T18:18">
+										{{prettyDate created_at}}
+									</time>
+					</div>
+				</div>
+
+				<div class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg>
+					<ul class="more-dropdown">
+						<li>
+							<a href="#">Edit Post</a>
+						</li>
+						<li>
+							<form class="" action="/posts/{{id}}?_method=DELETE" method="POST">
+								<input type="submit" value="Delete Post" class="a">
+							</form>
+						</li>
+						<li>
+							<a href="#">Turn Off Notifications</a>
+						</li>
+						<li>
+							<a href="#">Select as Featured</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+			<p>{{body}}
+			</p>
+
+			<div class="post-additional-info inline-items">
+
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+					<span>{{likes}}</span>
+				</a>
+
+				<div class="comments-shared">
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="etsk-speech-balloon-icon"><use xlink:href="icons/icons.svg#etsk-speech-balloon-icon"></use></svg>
+						<span>{{comments}}</span>
+					</a>
+
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="etsk-share-icon"><use xlink:href="icons/icons.svg#etsk-share-icon"></use></svg>
+						<span>{{shares}}</span>
+					</a>
+				</div>
+
+
+			</div>
+
+			<div class="control-block-button post-control-button">
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
+				</a>
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-comments-post-icon"><use xlink:href="icons/icons.svg#etsk-comments-post-icon"></use></svg>
+				</a>
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-share-icon"><use xlink:href="icons/icons.svg#etsk-share-icon"></use></svg>
+				</a>
+
+			</div>
+
+		</article>
+	</div>
+	{{/each}}
+
+	<div class="ui-block">
+		<article class="hentry post">
+
+			<div class="post__author author vcard inline-items">
+				<img src="img/avatar10-sm.jpg" alt="author">
+
+				<div class="author-date">
+					<a class="h6 post__author-name fn" href="#">Leandra Miller</a>
+					<div class="post__date">
+						<time class="published" datetime="2004-07-24T18:18">
+										9 hours ago
+									</time>
+					</div>
+				</div>
+
+				<div class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg>
+					<ul class="more-dropdown">
+						<li>
+							<a href="#">Edit Post</a>
+						</li>
+						<li>
+							<a href="#">Delete Post</a>
+						</li>
+						<li>
+							<a href="#">Turn Off Notifications</a>
+						</li>
+						<li>
+							<a href="#">Select as Featured</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempo incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris consequat.
+			</p>
+
+			<div class="post-additional-info inline-items">
+
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+					<span>24</span>
+				</a>
+
+				<ul class="connections-harmonic">
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic7.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic8.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic9.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic10.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic1.jpg" alt="Connection">
+						</a>
+					</li>
+				</ul>
+
+				<div class="names-people-likes">
+					<a href="#">You</a>, <a href="#">Leandra Miller</a> and
+					<br>22 more liked this
+				</div>
+
+
+				<div class="comments-shared">
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="etsk-speech-balloon-icon"><use xlink:href="icons/icons.svg#etsk-speech-balloon-icon"></use></svg>
+						<span>17</span>
+					</a>
+
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="etsk-share-icon"><use xlink:href="icons/icons.svg#etsk-share-icon"></use></svg>
+						<span>24</span>
+					</a>
+				</div>
+
+
+			</div>
+
+			<div class="control-block-button post-control-button">
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
+				</a>
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-comments-post-icon"><use xlink:href="icons/icons.svg#etsk-comments-post-icon"></use></svg>
+				</a>
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-share-icon"><use xlink:href="icons/icons.svg#etsk-share-icon"></use></svg>
+				</a>
+
+			</div>
+
+		</article>
+
+		<ul class="comments-list">
+			<li>
+				<div class="post__author author vcard inline-items">
+					<img src="img/author-page.jpg" alt="author">
+
+					<div class="author-date">
+						<a class="h6 post__author-name fn" href="02-ProfilePage.html">Colton Rapangani</a>
+						<div class="post__date">
+							<time class="published" datetime="2004-07-24T18:18">
+											38 mins ago
+										</time>
+						</div>
+					</div>
+
+					<a href="#" class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
+
+				</div>
+
+				<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium der doloremque laudantium.</p>
+
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+					<span>3</span>
+				</a>
+				<a href="#" class="reply">Reply</a>
+			</li>
+			<li>
+				<div class="post__author author vcard inline-items">
+					<img src="img/avatar1-sm.jpg" alt="author">
+
+					<div class="author-date">
+						<a class="h6 post__author-name fn" href="#">Kelsey Gilstrap</a>
+						<div class="post__date">
+							<time class="published" datetime="2004-07-24T18:18">
+											1 hour ago
+										</time>
+						</div>
+					</div>
+
+					<a href="#" class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
+
+				</div>
+
+				<p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum quia dolor sit amet, consectetur adipisci velit en lorem ipsum duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+				</p>
+
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+					<span>8</span>
+				</a>
+				<a href="#" class="reply">Reply</a>
+			</li>
+		</ul>
+
+		<a href="#" class="more-comments">View more comments <span>+</span></a>
+
+		<form class="comment-form inline-items">
+
+			<div class="post__author author vcard inline-items">
+				<img src="img/author-page.jpg" alt="author">
+			</div>
+
+			<div class="form-group with-icon-right is-empty">
+				<textarea class="form-control" placeholder=""></textarea>
+				<div class="add-options-message">
+					<a href="#" class="options-message" data-toggle="modal" data-target="#update-header-photo">
+						<svg class="etsk-camera-icon"><use xlink:href="icons/icons.svg#etsk-camera-icon"></use></svg>
+					</a>
+				</div>
+
+				<span class="material-input"></span><span class="material-input"></span></div>
+
+		</form>
+
+	</div>
+
+	<div class="ui-block">
+		<article class="hentry post has-post-thumbnail">
+
+			<div class="post__author author vcard inline-items">
+				<img src="img/avatar5-sm.jpg" alt="author">
+
+				<div class="author-date">
+					<a class="h6 post__author-name fn" href="#">Electronic Resources</a>
+					<div class="post__date">
+						<time class="published" datetime="2004-07-24T18:18">
+										March 8 at 6:42pm
+									</time>
+					</div>
+				</div>
+
+				<div class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg>
+					<ul class="more-dropdown">
+						<li>
+							<a href="#">Edit Post</a>
+						</li>
+						<li>
+							<a href="#">Delete Post</a>
+						</li>
+						<li>
+							<a href="#">Turn Off Notifications</a>
+						</li>
+						<li>
+							<a href="#">Select as Featured</a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+			<p>Ratione voluptatem sequi en lod nesciunt. Neque porro quisquam est, quinder dolorem ipsum quia dolor sit amet, <a href="#">consectetur adipisci</a> velit en lorem ipsum duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+			</p>
+
+			<div class="post-thumb">
+				<img src="img/post__thumb1.jpg" alt="photo">
+			</div>
+
+			<div class="post-additional-info inline-items">
+
+				<a href="#" class="post-add-icon inline-items">
+					<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+					<span>49</span>
+				</a>
+
+				<ul class="connections-harmonic">
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic9.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic10.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic7.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic8.jpg" alt="Connection">
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="img/friend-harmonic1.jpg" alt="Connection">
+						</a>
+					</li>
+				</ul>
+
+				<div class="names-people-likes">
+					<a href="#">Colton Rapangani</a>, <a href="#">Kelsey Gilstrap</a> and
+					<br>47 more liked this
+				</div>
+
+
+				<div class="comments-shared">
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="etsk-speech-balloon-icon"><use xlink:href="icons/icons.svg#etsk-speech-balloon-icon"></use></svg>
+						<span>264</span>
+					</a>
+
+					<a href="#" class="post-add-icon inline-items">
+						<svg class="etsk-share-icon"><use xlink:href="icons/icons.svg#etsk-share-icon"></use></svg>
+						<span>37</span>
+					</a>
+				</div>
+
+
+			</div>
+
+			<div class="control-block-button post-control-button">
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
+				</a>
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-comments-post-icon"><use xlink:href="icons/icons.svg#etsk-comments-post-icon"></use></svg>
+				</a>
+
+				<a href="#" class="btn btn-control">
+					<svg class="etsk-share-icon"><use xlink:href="icons/icons.svg#etsk-share-icon"></use></svg>
+				</a>
+
+			</div>
+
+		</article>
+	</div>
+
+	<a id="load-more-button" href="#" class="btn btn-control btn-more" data-load-link="items-to-load.html" data-container="newsfeed-items-grid"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
+
+</main>
+
+<!-- Left Sidebar -->
+
+<aside class="col-xl-3 pull-xl-6 col-lg-6 pull-lg-0 col-md-6 col-sm-12 col-xs-12">
+	
+		<div class="ui-block">
+		<div class="ui-block-title">
+			<h6 class="title">Suggested Mentors</h6>
+			<a href="#" class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
+		</div>
+
+		<ul class="widget w-connection-pages-added notification-list connections-requests">
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar38-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Sammi Jackson</a>
+					<span class="chat-message-item">5 Connections</span>
+				</div>
+				<span class="notification-icon">
+							<a href="#" class="accept-request">
+								<span class="icon-add without-text">
+									<svg class="etsk-happy-face-icon"><use xlink:href="icons/icons.svg#etsk-happy-face-icon"></use></svg>
+								</span>
+				</a>
+				</span>
+
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar39-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Jordan Drake</a>
+					<span class="chat-message-item">Computer Sciences</span>
+				</div>
+				<span class="notification-icon">
+							<a href="#" class="accept-request">
+								<span class="icon-add without-text">
+									<svg class="etsk-happy-face-icon"><use xlink:href="icons/icons.svg#etsk-happy-face-icon"></use></svg>
+								</span>
+				</a>
+				</span>
+
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar40-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Serena Marie</a>
+					<span class="chat-message-item">Software Engineering</span>
+				</div>
+				<span class="notification-icon">
+							<a href="#" class="accept-request">
+								<span class="icon-add without-text">
+									<svg class="etsk-happy-face-icon"><use xlink:href="icons/icons.svg#etsk-happy-face-icon"></use></svg>
+								</span>
+				</a>
+				</span>
+
+			</li>
+
+		</ul>
+
+	</div>
+	
+
+	<div class="ui-block">
+		<div class="ui-block-title">
+			<h6 class="title">Suggested Pages</h6>
+			<a href="#" class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
+		</div>
+
+		<ul class="widget w-connection-pages-added notification-list connections-requests">
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar41-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Electronic Resource</a>
+					<span class="chat-message-item">Software Engineering</span>
+				</div>
+				<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="">
+							<a href="#">
+								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
+							</a>
+						</span>
+
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar42-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Elktek</a>
+					<span class="chat-message-item">Environmental Crime and Technology Conference</span>
+				</div>
+				<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="FOLLOW">
+							<a href="#">
+								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
+							</a>
+						</span>
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar43-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">District Wide Technology</a>
+					<span class="chat-message-item">Fairfield Independent School District</span>
+				</div>
+				<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="FOLLOW">
+							<a href="#">
+								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
+							</a>
+						</span>
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar44-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Thorn</a>
+					<span class="chat-message-item">Marketing and Technology</span>
+				</div>
+				<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="FOLLOW">
+							<a href="#">
+								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
+							</a>
+						</span>
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar45-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Flash Systems</a>
+					<span class="chat-message-item">Computer Systems</span>
+				</div>
+				<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="FOLLOW">
+							<a href="#">
+								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
+							</a>
+						</span>
+			</li>
+
+			<li class="inline-items">
+				<div class="author-thumb">
+					<img src="img/avatar46-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Vapor Wave</a>
+					<span class="chat-message-item">Music Production</span>
+				</div>
+				<span class="notification-icon" data-toggle="tooltip" data-placement="top" title="FOLLOW">
+							<a href="#">
+								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
+							</a>
+						</span>
+			</li>
+
+		</ul>
+
+	</div>
+</aside>
+
+<!-- ... end Left Sidebar -->
+
+
+<!-- Right Sidebar -->
+
+<aside class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+	<div class="ui-block">
+
+		<div class="ui-block-title">
+			<h6 class="title">Activity Feed</h6>
+			<a href="#" class="more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
+		</div>
+
+		<ul class="widget w-activity-feed notification-list">
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar49-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Kelsey Gilstrap</a> commented on Jake Parker’s <a href="#" class="notification-link">photo.</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 mins ago</time></span>
+				</div>
+			</li>
+
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar9-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Jake Parker </a> liked Colton Williams’s <a href="#" class="notification-link">status update.</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">5 mins ago</time></span>
+				</div>
+			</li>
+
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar49-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Karen Fitz </a> added 20 new photos to her <a href="#" class="notification-link">gallery album.</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">12 mins ago</time></span>
+				</div>
+			</li>
+
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar50-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Melony Oter </a> updated his profile <a href="#" class="notification-link">photo</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
+				</div>
+			</li>
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar48-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Allie Redd </a> commented on Adam Jacobini’s <a href="#" class="notification-link">status update</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
+				</div>
+			</li>
+
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar52-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Saturn Technologies </a> posted a <a href="#" class="notification-link">status update</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">1 hour ago</time></span>
+				</div>
+			</li>
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar10-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Brooke Anderson  </a> liked your <a href="#" class="notification-link">blog post</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 hours ago</time></span>
+				</div>
+			</li>
+
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar10-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Brooke Anderson  </a> commented on your <a href="#" class="notification-link">blog post</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">2 hours ago</time></span>
+				</div>
+			</li>
+
+			<li>
+				<div class="author-thumb">
+					<img src="img/avatar60-sm.jpg" alt="author">
+				</div>
+				<div class="notification-event">
+					<a href="#" class="h6 notification-connection">Sammi Jackson </a> changed his <a href="#" class="notification-link">profile picture</a>.
+					<span class="notification-date"><time class="entry-date updated" datetime="2004-07-24T18:18">15 hours ago</time></span>
+				</div>
+			</li>
+
+		</ul>
+	</div>
+
+</aside>

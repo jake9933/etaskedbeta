@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<title>Landing Page</title>
+
+	<!-- Required meta tags always come first -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+	<!-- Main Font -->
+	<script src="js/webfontloader.min.js"></script>
+	<script>
+		WebFont.load({
+			google: {
+				families: ['Roboto:300,400,500,700:latin']
+			}
+		});
+	</script>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-reboot.css">
+	<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="Bootstrap/dist/css/bootstrap-grid.css">
+
+	<!-- Theme Styles CSS -->
+	<link rel="stylesheet" type="text/css" href="css/etasked.css">
+	<link rel="stylesheet" type="text/css" href="css/blocks.css">
+	<link rel="stylesheet" type="text/css" href="css/fonts.css">
+
+	<!-- Styles for plugins -->
+	<link rel="stylesheet" type="text/css" href="css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-select.css">
+	
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/img/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/img/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/img/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/img/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/img/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/img/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/img/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/img/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/img/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/img/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/img/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/img/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+
+</head>
+
+<body class="landing-page">
+	
+	<video poster="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/polina.jpg" id="bgvid" playsinline autoplay muted loop>
+  <!-- WCAG general accessibility recommendation is that media such as background video play through only once. Loop turned on for the purposes of illustration; if removed, the end of the video will fade in the same way created by pressing the "Pause" button  -->
+<source src="/img/video/video.webm" type="video/webm">
+<source src="/img/video/video.mp4" type="video/mp4">
+</video>
+
+
+<!-- Landing Header -->
+
+<div class="container">
+	<div class="row">
+		<div class="col-xl-12 col-lg-12 col-md-12">
+			<div id="site-header-landing" class="header-landing">
+				<a href="02-ProfilePage.html" class="logo">
+					<img src="img/logo.png" alt="etsk">
+					<h5 class="logo-title">ETASKED</h5>
+				</a>
+
+				<ul class="profile-menu">
+					<li>
+						<a href="#">About</a>
+					</li>
+					<li>
+						<a href="#">Careers</a>
+					</li>
+					<li>
+						<a href="#">Support</a>
+					</li>
+					<li>
+						<a href="#" class="js-expanded-menu">
+							<svg class="etsk-menu-icon"><use xlink:href="icons/icons.svg#etsk-menu-icon"></use></svg>
+							<svg class="etsk-close-icon"><use xlink:href="icons/icons.svg#etsk-close-icon"></use></svg>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Landing Header -->
+
+<!-- Login-Registration Form  -->
+
+<div class="container">
+	<div class="row display-flex">
+		<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+			<div class="landing-content">
+				<h1>Mentor Network</h1>
+				<p>We strive to create a growing network for students and mentors to help them accell in their desired field. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+				</p>
+				<a href="/posts" class="btn btn-md btn-border c-white">Learn More</a>
+			</div>
+		</div>
+
+		<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+			<div class="registration-login-form">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" data-toggle="tab" href="#home" role="tab">
+							<svg class="etsk-login-icon"><use xlink:href="icons/icons.svg#etsk-login-icon"></use></svg>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="tab" href="#profile" role="tab">
+							<svg class="etsk-register-icon"><use xlink:href="icons/icons.svg#etsk-register-icon"></use></svg>
+						</a>
+					</li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel" data-mh="log-tab">
+						<div class="title h6">Create an Account</div>
+						<form class="content" action="/auth/signup" method="post">
+							<div class="row">
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group label-floating">
+										<label class="control-label">First Name</label>
+										<input class="form-control" placeholder="" type="text" name="first_name" id="login-firstname" required>
+									</div>
+								</div>
+								<div class="col-lg-6 col-md-6">
+									<div class="form-group label-floating">
+										<label class="control-label">Last Name</label>
+										<input class="form-control" placeholder="" type="text" name="last_name" id="login-lastname" required>
+									</div>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12">
+									<div class="form-group label-floating">
+										<label class="control-label">Email</label>
+										<input class="form-control" placeholder="" type="email" name="username" id="login-username" required>
+									</div>
+									<div class="form-group label-floating">
+										<label class="control-label">Password</label>
+										<input class="form-control" placeholder="" type="password" name="hashed_password" id="login-password" required>
+									</div>
+
+									<div class="form-group date-time-picker label-floating">
+										<label class="control-label">Birthday</label>
+										<input name="datetimepicker" value="01/01/1996"/>
+										<span class="input-group-addon">
+											<svg class="etsk-calendar-icon"><use xlink:href="icons/icons.svg#etsk-calendar-icon"></use></svg>
+										</span>
+									</div>
+									&nbsp
+									<div class="remember">
+										<div class="checkbox">
+											<label>
+												<input name="optionsCheckboxes" type="checkbox" name="admin" id="admin" required>
+												By creating an account you agree to our <a href="#">terms</a>.
+											</label>
+										</div>
+									</div>
+									<button class="btn btn-red btn-lg full-width">Create Account</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div class="tab-pane" id="profile" role="tabpanel" data-mh="log-tab">
+						<div class="title h6">Account Login</div>
+						<form class="content" action="/auth/login" method="post">
+							<div class="row">
+								<div class="col-xl-12 col-lg-12 col-md-12">
+									<div class="form-group label-floating">
+										<label class="control-label">Your Email</label>
+										<input class="form-control" placeholder="" type="text" name="username" id="login-username" required>
+									</div>
+									<div class="form-group label-floating">
+										<label class="control-label">Your Password</label>
+										<input class="form-control" placeholder="" type="password" name="hashed_password" id="login-password" required>
+									</div>
+
+									<div class="remember">
+
+										<div class="checkbox">
+											<label>
+												<input name="optionsCheckboxes" type="checkbox">
+												Remember Me
+											</label>
+										</div>
+										<a href="#" class="forgot">Forgot my Password</a>
+									</div>
+
+									<button type="submit" class="btn btn-lg btn-primary full-width">Login</button>
+
+									<div class="or"></div>
+
+									<a href="/profile" class="btn btn-lg bg-facebook full-width btn-icon-left"><i class="fa fa-facebook" aria-hidden="true"></i>Login with Facebook</a>
+
+									<a href="/profile" class="btn btn-lg bg-google full-width btn-icon-left"><i class="fa fa-google-plus" aria-hidden="true"></i>Login with Google</a>
+
+									<p>Don’t you have an account? Click <a href="/profile">here</a> to join today!</p>
+								</div>
+							</div>
+						<!--form here--></form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ... end Login-Registration Form  -->
+
+
+
+
+
+<!-- jQuery first, then Other JS. -->
+<script src="js/jquery-3.2.0.min.js"></script>
+<!-- Js effects for material design. + Tooltips -->
+<script src="js/material.min.js"></script>
+<!-- Helper scripts (Tabs, Equal height, Scrollbar, etc) -->
+<script src="js/theme-plugins.js"></script>
+<!-- Init functions -->
+<script src="js/etasked.js"></script>
+
+<!-- Select / Sorting script -->
+<script src="js/selectize.min.js"></script>
+
+<!-- Swiper / Sliders -->
+<script src="js/swiper.jquery.min.js"></script>
+
+<!-- Datepicker input field script-->
+<script src="js/moment.min.js"></script>
+<script src="js/daterangepicker.min.js"></script>
+
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/mediaelement-playlist-plugin.min.js"></script>
+
+</body>
+</html>
