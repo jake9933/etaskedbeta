@@ -193,12 +193,15 @@
 				<div class="control-block">
 					<div class="author-page author vcard inline-items">
 						<div class="author-thumb">
-							<img alt="author" src="/img/author-page.jpg" class="avatar">
+			
+							<img src="{{user.avatar}}" alt="author" style="width:100%;" class="avatar">
+							
 							<span class="icon-status online"></span>
 						</div>
 						<a href="#" class="author-name fn">
 							<div class="author-title">
-								David Scott <svg class="etsk-dropdown-arrow-icon"><use xlink:href="/icons/icons.svg#etsk-dropdown-arrow-icon"></use></svg>
+								{{user.first_name}} {{user.last_name}} <svg class="etsk-dropdown-arrow-icon">
+									<use xlink:href="/icons/icons.svg#etsk-dropdown-arrow-icon"></use></svg>
 							</div>
 							<span class="author-subtitle">Software Engineer</span>
 						</a>
@@ -1165,7 +1168,7 @@
 
 				<div class="author-page author vcard inline-items more">
 					<div class="author-thumb">
-						<img alt="author" src="/img/author-page.jpg" class="avatar">
+						<img alt="author" src="{{user.avatar}}" style="width:40px;">
 						<span class="icon-status online"></span>
 						<div class="more-dropdown more-with-triangle">
 							<div class="mCustomScrollbar" data-mcs-theme="dark">
@@ -1190,7 +1193,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="/">
+										<a href="/auth/logout">
 											<svg class="etsk-logout-icon"><use xlink:href="/icons/icons.svg#etsk-logout-icon"></use></svg>
 
 											<span>Log Out</span>
@@ -1269,7 +1272,7 @@
 					</div>
 					<a href="#" class="author-name fn">
 						<div class="author-title">
-							David Scott <svg class="etsk-dropdown-arrow-icon"><use xlink:href="/icons/icons.svg#etsk-dropdown-arrow-icon"></use></svg>
+							{{user.first_name}} {{user.last_name}}<svg class="etsk-dropdown-arrow-icon"><use xlink:href="/icons/icons.svg#etsk-dropdown-arrow-icon"></use></svg>
 						</div>
 						<span class="author-subtitle">Software Engineer</span>
 					</a>

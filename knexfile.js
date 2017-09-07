@@ -10,7 +10,7 @@ module.exports = {
             database: 'etasked',
             host: 'localhost',
             user: "postgres",
-            password: "test",
+            password: "postgres",
         }
     }
 };
