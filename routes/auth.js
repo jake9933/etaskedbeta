@@ -22,7 +22,43 @@ function authorizedUser(req, res, next) {
 
 function authorizedAdmin(req, res, next) {
   //
-}
+};
+
+let onCreateSession = (user, callback)=>{
+  bcrypt.hash(user.username, 10, function(err, hash) {
+    
+    let _session={
+      session_id:hash,
+      user_id:user.id,
+      active:1
+    };
+
+    knex('sessions')
+      .insert(_session)
+      .then((data) => {
+        callback(true,user, _session);
+      })
+      .catch((err) => {
+        console.log("ERROR sessions", err);
+        callback(false,err,{});
+      });
+
+  });
+};
+
+let getUser = (req) =>{
+    return new Promise((resolve, reject)=>{
+    let query ={
+      'users.username':req.body.username
+    };
+    knex('users')
+      .where(query)
+      .innerJoin('roles', 'users.role_id', 'roles.id')
+      .first()
+      .then((data)=>{resolve(data);})
+      .then((err)=>{reject(err);})
+  });
+};
 
 router.get('/', function(req, res, next) {
   let user = req.session.user;
@@ -40,63 +76,85 @@ router.get('/login', function(req, res, next) {
 })
 
 router.post('/signup', function(req, res, next) {
-
+  
   let onRender = (data) => {
     if(data[0]==true){
-      console.log(req.body.username + " account created.")
       res.redirect('/profile');
     }else{
       res.redirect('/');
     }
   };
 
+  let rolePromise = new Promise((resolve, reject)=>{
+    let query = {
+      role:req.body.role.toLowerCase()
+    };
+    knex('roles')
+      .where(query)
+      .first()
+      .then((data)=>{
+        resolve(data);
+      })
+      .catch((err)=>{
+        console.log(err)
+        console.log('error')
+        reject(err);
+      });
+  });
+
   let userProimse = new Promise((resolve, reject) => {
     
     let query ={
       username:req.body.username
     };
-
+  
     let saveUser = (user) => {
-      console.log('saveUser')
-      console.log(user)
+     
       if(!user){
 
         createAvatar
-          .generateAvatar(function(created_avatar) {
+          .generateAvatar((created_avatar)=>{
 
-            let hash = bcrypt.hashSync(req.body.hashed_password, 12);
-            
-            let obj = {
-              username: req.body.username,
-              hashed_password: hash,
-              first_name: req.body.first_name,
-              last_name: req.body.last_name,
-              email: req.body.username,
-              admin: req.body.admin||false,
-              avatar: created_avatar,
-            };
+            rolePromise
+              .then((data)=>{
 
-            knex('users')
-              .insert(obj)
-              .then((data) => {
-                console.log(req.body.username + " account created.")
-                resolve([true,data]);
-              })
-              .catch((err) => {
-                console.log("ERROR", err);
-                reject([false,err]);
+                let hash = bcrypt.hashSync(req.body.hashed_password, 12);
+                
+                let obj = {
+                  username : req.body.username,
+                  hashed_password : hash,
+                  first_name : req.body.first_name,
+                  last_name : req.body.last_name,
+                  email : req.body.username,
+                  admin : req.body.admin||false,
+                  avatar : created_avatar,
+                  role_id : data.id
+                };
+     
+                knex('users')
+                  .insert(obj)
+                  .then((d) => {
+                    getUser(req).then((u)=>{
+                      onCreateSession(u,(err, data, _session)=>{
+                        req.session.id = _session.session_id;
+                        res.cookie("loggedin", true);
+                        resolve([err, data])
+                      })
+                    });
+                  })
+                  .catch((err) => {
+                    console.log("ERROR creating user", err);
+                    reject([false,err]);
+                  });
               });
         });
         
       } else{
-        reject([false,'User unknow']);
+        resolve([false,'User unknow']);
       } 
     };
   
-    knex('users')
-        .where(query)
-        .first()
-        .then(saveUser)
+    getUser(req).then(saveUser).catch((err)=>{reject(err);});
 
   });
 
@@ -113,7 +171,7 @@ router.post('/login', function(req, res, next) {
 
   let onRender = (data) => {
     if(data[0]==true){
-      console.log(req.session.user.id + " logged in.");
+      console.log(req.session.id + " logged in.");
       res.redirect('/profile');
     }else{
       res.redirect('/');
@@ -127,30 +185,16 @@ router.post('/login', function(req, res, next) {
     };
 
     let onLogin = (user) => {
-
+      console.log(user)
+      console.log('user')
       if(user){
-        bcrypt.compare(req.body.hashed_password, user.hashed_password, function(err, data) {
-          if (data) {
-            bcrypt.hash(user.username, 10, function(err, hash) {
-              
-              let _session={
-                session_id:hash,
-                user_id:user.id,
-                active:1
-              };
-
-              knex('sessions')
-                .insert(_session)
-                .then((data) => {
-                  req.session.id = _session.session_id;
-                  res.cookie("loggedin", true);
-                  resolve([true,user]);
-                })
-                .catch((err) => {
-                  console.log("ERROR", err);
-                  reject([false,err]);
-                });
-
+        bcrypt.compare(req.body.hashed_password, user.hashed_password, function(err, _data) {
+          if (_data) {
+            console.log(user)
+            onCreateSession(user,(err, data, _session)=>{
+              req.session.id = _session.session_id;
+              res.cookie("loggedin", true);
+              resolve([err, data])
             });
           }
           else {
@@ -163,17 +207,14 @@ router.post('/login', function(req, res, next) {
       }
     };
 
-    knex('users')
-      .where(query)
-      .first()
-      .then(onLogin)
+    getUser(req).then(onLogin);
 
   });
 
   userPromise
     .then(onRender)
     .catch((err) => {
-      console.log('ERROR');
+      console.log('ERROR ', err);
       res.redirect('/auth/login');
     });
 

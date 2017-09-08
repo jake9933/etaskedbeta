@@ -8,7 +8,7 @@
 
 exports.seed = function(knex) {
      // Deletes ALL existing entries
-     return knex('users')
+     /*return knex('users')
          .del()
          .then(function() {
              return Promise.all([
@@ -28,5 +28,5 @@ exports.seed = function(knex) {
                      email: 'test@example.com'
                  }),
              ]);
-         });
+         });*/
 };

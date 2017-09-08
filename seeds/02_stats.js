@@ -4,7 +4,7 @@
 // /* eslint-disable max-len */
 
  exports.seed = function(knex) {
-    // Deletes ALL existing entries
+ /*   // Deletes ALL existing entries
      return knex('stats')
          .del()
          .then(function() {
@@ -23,5 +23,5 @@
              }];
              return knex('stats')
                  .insert(players);
-         });
+         });*/
  };

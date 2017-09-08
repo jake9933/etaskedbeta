@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
         table.integer('shares').notNullable().defaultTo(0);
         table.integer('comments').notNullable().defaultTo(0);
         table.timestamps(true, true);
-
+        table.boolean('active').defaultTo(1);
     })
 };
 

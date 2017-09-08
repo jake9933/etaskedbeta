@@ -12,6 +12,8 @@ exports.up = function(knex, Promise) {
     table.string('hashed_password');
     table.string('avatar');
     table.timestamps(true, true);
+    table.integer('role_id').unsigned().index().references('id').inTable('roles');
+    table.boolean('active').defaultTo(1);
   })
 };
 
