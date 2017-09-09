@@ -16,9 +16,10 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const methodOverride = require('method-override');
 const hbs = require('hbs');
-
+const fs = require('fs');
 
 // Application Routes.
+const index = require('./routes/index');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const profile = require('./routes/profile');
@@ -26,6 +27,8 @@ const posts = require('./routes/posts');
 const mentors = require('./routes/mentors');
 
 
+hbs.registerPartials(__dirname+'/views/partials');
+hbs.registerPartial('header', fs.readFileSync(__dirname+'/views/partials/header.hbs'), 'utf8');
 // Helpers for Handlebars.js limit reduces views.
 hbs.registerHelper('select', function(selected, options) {
     return options.fn(this)
@@ -106,6 +109,7 @@ app.use(cookieSession({
 app.use(require('flash')());
 
 // Used Routes.
+app.use('/', index);
 app.use('/users', users);
 app.use('/auth', auth);
 app.use('/profile', profile);

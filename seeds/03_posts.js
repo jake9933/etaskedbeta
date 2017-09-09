@@ -5,7 +5,7 @@
 
  exports.seed = function(knex) {
      // Deletes ALL existing entries
-     return knex('posts')
+ /*    return knex('posts')
          .del()
          .then(function() {
              const posts = [{
@@ -20,5 +20,5 @@
              }];
              return knex('posts')
                  .insert(posts);
-         });
-};
+         });*/
+ };

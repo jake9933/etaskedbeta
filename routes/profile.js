@@ -4,6 +4,8 @@ const router = express.Router();
 const knex = require('../knex');
 const bcrypt = require('bcrypt');
 const flash = require('flash');
+const hbs = require('hbs');
+
 
 function authorizedUser(req, res, next) {    
     let _sessionId = req.session.id;
@@ -17,7 +19,8 @@ function authorizedUser(req, res, next) {
 router.get('/', authorizedUser, function(req, res, next) {
 
     let onRender = (data) => {
-        res.render('profile/profile',{
+
+        res.render('profile/'+data.role+'/profile',{
             user:data
         });
     };
@@ -32,7 +35,10 @@ router.get('/', authorizedUser, function(req, res, next) {
             .where(query)
             .first()
             .then((data)=>{
-                resolve(data);
+                userPromise(data)
+                .then((user)=>{
+                    resolve(user);
+                })
             })
             .catch((err)=>{
                 reject(err);
@@ -40,16 +46,18 @@ router.get('/', authorizedUser, function(req, res, next) {
     });
 
     let userPromise = (session) => { 
-        
+
         return new Promise((resolve, reject) => {
             var query = {
-                id:session.user_id
+                'users.id':session.user_id
             };
-            knex('users')
+            knex('users')                
+                .innerJoin('roles', 'users.role_id', 'roles.id')
                 .where(query)
+                .first()
                 .then((user)=>{
                     if(user){
-                        resolve(user[0]);
+                        resolve(user);
                     }
                     resolve({});
                 })
@@ -60,7 +68,6 @@ router.get('/', authorizedUser, function(req, res, next) {
     };
 
     getSession
-        .then(userPromise)
         .then(onRender)
         .catch((err)=>{
             console.log('ERROR:')

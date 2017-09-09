@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
     table.integer('user_id').unsigned().index().references('id').inTable('users').onDelete('CASCADE');
     table.integer('post_id').unsigned().index().references('id').inTable('posts').onDelete('CASCADE');
     table.timestamps(true, true);
+    table.boolean('active').defaultTo(1);
   })
 };
 
