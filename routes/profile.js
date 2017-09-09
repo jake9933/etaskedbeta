@@ -51,12 +51,11 @@ router.get('/', authorizedUser, function(req, res, next) {
             var query = {
                 'users.id':session.user_id
             };
-            knex('users')
-                .where(query)
+            knex('users')                
                 .innerJoin('roles', 'users.role_id', 'roles.id')
+                .where(query)
                 .first()
                 .then((user)=>{
-                    console.log(user)
                     if(user){
                         resolve(user);
                     }

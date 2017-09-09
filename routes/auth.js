@@ -46,17 +46,23 @@ let onCreateSession = (user, callback)=>{
   });
 };
 
-let getUser = (req) =>{
+let getUser = (username) =>{
     return new Promise((resolve, reject)=>{
     let query ={
-      'users.username':req.body.username
+      'users.username':username
     };
+    
     knex('users')
-      .where(query)
+      .select('users.*')
       .innerJoin('roles', 'users.role_id', 'roles.id')
+      .where(query)
       .first()
-      .then((data)=>{resolve(data);})
-      .then((err)=>{reject(err);})
+      .then((data)=>{
+        resolve(data);
+      })
+      .then((err)=>{
+        reject(err);
+      });
   });
 };
 
@@ -134,7 +140,9 @@ router.post('/signup', function(req, res, next) {
                 knex('users')
                   .insert(obj)
                   .then((d) => {
-                    getUser(req).then((u)=>{
+                    getUser(req.body.username).then((u)=>{
+                      console.log('adter insert')
+                      console.log(u)
                       onCreateSession(u,(err, data, _session)=>{
                         req.session.id = _session.session_id;
                         res.cookie("loggedin", true);
@@ -154,7 +162,7 @@ router.post('/signup', function(req, res, next) {
       } 
     };
   
-    getUser(req).then(saveUser).catch((err)=>{reject(err);});
+    getUser(req.body.username).then(saveUser).catch((err)=>{reject(err);});
 
   });
 
@@ -185,12 +193,10 @@ router.post('/login', function(req, res, next) {
     };
 
     let onLogin = (user) => {
-      console.log(user)
-      console.log('user')
+
       if(user){
         bcrypt.compare(req.body.hashed_password, user.hashed_password, function(err, _data) {
           if (_data) {
-            console.log(user)
             onCreateSession(user,(err, data, _session)=>{
               req.session.id = _session.session_id;
               res.cookie("loggedin", true);
@@ -207,7 +213,7 @@ router.post('/login', function(req, res, next) {
       }
     };
 
-    getUser(req).then(onLogin);
+    getUser(req.body.username).then(onLogin);
 
   });
 

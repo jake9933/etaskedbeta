@@ -13,7 +13,7 @@ const flash = require('flash');
 
 function authorizedUser(req, res, next) {
 
-  let userID = req.session.user;
+  let userID = req.session.id;
   if (userID) {
     next();
   }
@@ -50,15 +50,77 @@ router.get('/new', authorizedUser, function(req, res, next) {
 })
 
 router.post('/', authorizedUser, function(req, res, next) {
-  knex('posts').insert({
-    title: req.body.title,
-    body: req.body.body,
-    user_id: knex.select('id').from('users').where('id', req.session.user.id)
-  }).then(function() {
-    res.redirect('/posts')
-  })
-  console.log("User: David Scott, new post.")
-})
+
+  let getSession = new Promise((resolve, reject) => {
+    var query = {
+        session_id:req.session.id,
+        active:1
+    };
+
+    knex('sessions')
+        .where(query)
+        .first()
+        .then((data)=>{
+          resolve(data)
+            userPromise(data);            
+        })
+        .catch((err)=>{
+            reject(err);
+        });
+  });
+
+  let userPromise = (session) => { 
+    
+      return new Promise((resolve, reject) => {
+          var query = {
+              'users.id':session.user_id
+          };
+          knex('users')
+              .select('users.*')
+              .where(query)
+              .first()
+              .then((user)=>{
+                  if(user){
+                      resolve(user);
+                  }
+                  resolve({});
+              })
+              .catch((err)=>{
+                  reject(err);
+              });
+      });
+  };
+
+  let onCreatePost = (user) =>{
+    return new Promise((resolve, reject)=>{
+
+      let post ={
+        title: req.body.title,
+        body: req.body.body,
+        user_id: user.id
+      };
+
+      knex('post')
+        .insert(post)
+        .then((data)=>{
+          resolve(data);
+        })
+        .catch((err)=>{
+          resolve(err);
+        });
+    });
+  };
+
+  let onResponse = (data) => {
+    return req.json(data);    
+  };
+
+  getSession
+    .then(userPromise)
+    .then(onCreatePost)
+    .then(onRender);
+
+});
 
 
 router.get('/:id', function(req, res, next) {
