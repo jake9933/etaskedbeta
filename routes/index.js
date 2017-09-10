@@ -7,7 +7,6 @@ const flash = require('flash');
 
 
 router.get('/', function(req, res, next) {
-    console.log('inicio ---------------')
     res.render('index')
 })
 
