@@ -9,10 +9,10 @@
 						<img src="img/top-header2.jpg" alt="nature">
 						<div class="top-header-author">
 							<div class="author-thumb">
-								<img src="img/author-main2.jpg" alt="author">
+								<img src="{{user.avatar}}" alt="author">
 							</div>
 							<div class="author-content">
-								<a href="#" class="h3 author-name">Bill Gates</a>
+								<a href="#" class="h3 author-name">{{user.first_name}} {{user.last_name}}</a>
 								<div class="country">Business Magnate  |  Medina, WA</div>
 							</div>
 						</div>
@@ -48,7 +48,7 @@
 								<svg class="etsk-star-icon"><use xlink:href="icons/icons.svg#etsk-star-icon"></use></svg>
 							</a>
 
-							<a href="#" class="btn btn-control bg-purple">
+							<a href="#" class="btn btn-control bg-purple" data-target="#postModal">
 								<svg class="etsk-chat---messages-icon"><use xlink:href="icons/icons.svg#etsk-chat---messages-icon"></use></svg>
 							</a>
 
@@ -60,7 +60,7 @@
 	</div>
 </div>
 
-
+<!--
 <div class="container">
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -80,7 +80,7 @@
 				</div>
 
 				<div class="features-video-content">
-
+					
 					<article class="hentry post">
 
 						<div class="post__author author vcard inline-items">
@@ -154,7 +154,7 @@
 						</div>
 
 					</article>
-
+					
 					<div class="mCustomScrollbar" data-mcs-theme="dark">
 
 						<ul class="comments-list">
@@ -237,19 +237,21 @@
 		</div>
 	</div>
 </div>
-
+-->
 
 <div class="container">
 	<div class="row">
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			{{#each posts as |value key|}}
+		
 			<div class="ui-block">
 				<article class="hentry post has-post-thumbnail thumb-full-width">
 
 					<div class="post__author author vcard inline-items">
-						<img src="img/author-page2.jpg" alt="author">
+						<img src="{{value.avatar}}" alt="author">
 
 						<div class="author-date">
-							<a class="h6 post__author-name fn" href="02-ProfilePage.html">Bill Gates</a> wrote an <a href="#">article</a>
+							<a class="h6 post__author-name fn" href="02-ProfilePage.html">{{value.first_name}} {{value.last_name}}</a> wrote an <a href="#">article</a>
 							<div class="post__date">
 								<time class="published" datetime="2017-03-24T18:18">
 									7 hours ago
@@ -280,13 +282,13 @@
 						<img src="img/post__thumb4.jpg" alt="photo">
 					</div>
 
-					<a href="#" data-toggle="modal" data-target="#blog-post-popup" class="h2 post-title">In the fight against a devastating disease, India has a lot to be proud of.</a>
+					<a href="#" data-toggle="modal" data-target="#blog-post-popup" class="h2 post-title">{{value.title}}.</a>
 
-					<p>Subhash Chandra Chaubey was 14 years old in 1981 when his right leg began to swell. At first the change was almost imperceptible but, in the years that followed, it grew bigger and more deformed. Today, his leg resembles an elephant’s, with thick skin and a bloated foot.
+					<p>
+						{{value.body}}
 					</p>
 
-					<p>Chaubey’s misshapen limb is a tell-tale sign of lymphatic filariasis, also known as elephantiasis, a neglected tropical disease caused by a mosquito-borne parasitic worm that lodges inside the body and disrupts the lymph system...
-					</p>
+					<p></p>
 
 					<a href="#" data-toggle="modal" data-target="#blog-post-popup" class="btn btn-md-2 btn-border-think c-grey btn-transparent custom-color">Read More</a>
 
@@ -301,26 +303,6 @@
 							<li>
 								<a href="#">
 									<img src="img/friend-harmonic5.jpg" alt="friend">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/friend-harmonic10.jpg" alt="friend">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/friend-harmonic7.jpg" alt="friend">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/friend-harmonic8.jpg" alt="friend">
-								</a>
-							</li>
-							<li>
-								<a href="#">
-									<img src="img/friend-harmonic2.jpg" alt="friend">
 								</a>
 							</li>
 						</ul>
@@ -343,12 +325,11 @@
 							</a>
 						</div>
 
-
 					</div>
 
 					<div class="control-block-button post-control-button">
 
-						<a href="#" class="btn btn-control">
+						<a href="#" class="btn btn-control"  id="postLike{{key}}">
 							<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
 						</a>
 
@@ -364,6 +345,8 @@
 
 				</article>
 			</div>
+			{{/each}}
+			<!--
 			<div class="ui-block">
 				<article class="hentry post has-post-thumbnail thumb-full-width">
 
@@ -490,9 +473,11 @@
 
 				</article>
 			</div>
+			-->
 		</div>
-
+		
 		<div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<!--
 			<div class="ui-block">
 				<article class="hentry post has-post-thumbnail thumb-full-width">
 
@@ -615,6 +600,7 @@
 
 				</article>
 			</div>
+			
 			<div class="ui-block">
 				<article class="hentry post has-post-thumbnail thumb-full-width">
 
@@ -737,10 +723,61 @@
 
 				</article>
 			</div>
+			-->
 		</div>
-
+		
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<a href="#" class="btn btn-control btn-more"><svg class="etsk-three-dots-icon"><use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use></svg></a>
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      	<div class="modal-header">
+        	<h5 class="modal-title" id="exampleModalLabel">Create Post</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+      	</div>
+      	<div class="modal-body">
+			<div class="form-group">
+				<label for="title">Title</label>
+				<input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp" placeholder="Title">
+			</div>
+			<div class="form-group">
+				<label for="postText"></label>
+				<textarea placeholder="Post Content" class="form-control" id="body" name="body" rows="3" wrap="hard" autocomplete="off"></textarea>
+			</div>
+		</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="publish" >Publish</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/js/jquery-3.2.0.min.js"></script>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		$('a[data-target="#postModal"]').click(function(e){
+			e.preventDefault();
+			$('#postModal').modal();
+		});
+
+		$('button#publish').click(function(){
+			var obj = {
+				title: $('input#title').val(),
+        		body: $('textarea#body').val(),
+			};
+			$.post('/posts', obj, function(data){
+				console.log(data)
+				$('#postModal').modal('hide');
+			}, 'json');
+		});
+		
+	});
+</script>

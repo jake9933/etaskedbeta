@@ -11,6 +11,47 @@ const knex = require('../knex');
 const bcrypt = require('bcrypt');
 const flash = require('flash');
 
+let getSession = (session)=>{
+  return new Promise((resolve, reject) => {
+    var query = {
+        session_id:session,
+        active:1
+    };
+
+    knex('sessions')
+        .where(query)
+        .first()
+        .then((data)=>{
+          resolve(data);           
+        })
+        .catch((err)=>{
+            reject(err);
+        });
+  });
+};
+
+let userPromise = (session) => { 
+  
+    return new Promise((resolve, reject) => {
+        var query = {
+            'users.id':session.user_id
+        };
+        knex('users')
+            .select('users.*')
+            .where(query)
+            .first()
+            .then((user)=>{
+                if(user){
+                    resolve(user);
+                }
+                resolve({});
+            })
+            .catch((err)=>{
+                reject(err);
+            });
+    });
+};
+
 function authorizedUser(req, res, next) {
 
   let userID = req.session.id;
@@ -37,13 +78,39 @@ function authorizedAdmin(req, res, next) {
   })
 }
 
-router.get('/', function(req, res, next) {
-  knex('users').innerJoin('posts', 'users.id', 'posts.user_id').then(function(posts) {
-    res.render('posts', {
-      posts: posts
+router.get('/', authorizedUser, function(req, res, next) {
+
+  let onFetchPosts=(user)=>{
+    return new Promise((resolve, reject)=>{
+      knex('users')
+        .innerJoin('posts', 'users.id', 'posts.user_id')
+        .where('users.id', user.id)
+        .then(function(posts) {
+          resolve(posts)
+        })
+        .catch((err)=>{
+          reject(err);
+        });
     });
-  })
-})
+  };
+
+  let onRender=(data)=>{
+    console.log(data);
+    res.render('posts', {
+      posts: data
+    });
+  };
+  
+  getSession
+  .then(userPromise)
+  .then(onFetchPosts)
+  .then(onRender)
+  .catch((err)=>{
+    console.log('getPosts')
+    console.log(err)
+  });
+
+});
 
 router.get('/new', authorizedUser, function(req, res, next) {
   res.render('new')
@@ -51,74 +118,35 @@ router.get('/new', authorizedUser, function(req, res, next) {
 
 router.post('/', authorizedUser, function(req, res, next) {
 
-  let getSession = new Promise((resolve, reject) => {
-    var query = {
-        session_id:req.session.id,
-        active:1
-    };
-
-    knex('sessions')
-        .where(query)
-        .first()
-        .then((data)=>{
-          resolve(data)
-            userPromise(data);            
-        })
-        .catch((err)=>{
-            reject(err);
-        });
-  });
-
-  let userPromise = (session) => { 
-    
-      return new Promise((resolve, reject) => {
-          var query = {
-              'users.id':session.user_id
-          };
-          knex('users')
-              .select('users.*')
-              .where(query)
-              .first()
-              .then((user)=>{
-                  if(user){
-                      resolve(user);
-                  }
-                  resolve({});
-              })
-              .catch((err)=>{
-                  reject(err);
-              });
-      });
-  };
-
   let onCreatePost = (user) =>{
     return new Promise((resolve, reject)=>{
-
       let post ={
         title: req.body.title,
         body: req.body.body,
         user_id: user.id
       };
 
-      knex('post')
+      knex('posts')
         .insert(post)
         .then((data)=>{
           resolve(data);
         })
         .catch((err)=>{
+          console.log('err')
+          console.log(err)
           resolve(err);
         });
     });
   };
 
   let onResponse = (data) => {
-    return req.json(data);    
+    return res.json(data);    
   };
 
-  getSession
+  getSession(req.session.id)
     .then(userPromise)
     .then(onCreatePost)
-    .then(onRender);
+    .then(onResponse);
 
 });
 
