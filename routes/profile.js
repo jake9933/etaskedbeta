@@ -61,18 +61,46 @@ router.get('/', authorizedUser, function(req, res, next) {
     let onFetchPosts=(user)=>{
         return new Promise((resolve, reject)=>{
             knex('users')
-            .innerJoin('posts', 'users.id', 'posts.user_id')
-            .where('users.id', user.id)
-            .then(function(posts) {
-                resolve({posts:posts,user:user})
-            })
-            .catch((err)=>{
-                reject({error:err,user:{}});
-            });
+                .innerJoin('posts', 'users.id', 'posts.user_id')
+                .where('users.id', user.id)
+                .then(function(posts) {
+                    resolve({user:user, posts:posts})
+                })
+                .catch((err)=>{
+                    reject({error:err,user:{}});
+                });
         });
     };
 
-    let onRender = (data) => {    
+    let onFetchCommnets=(data)=>{
+        return Promise((resolve, reject)=>{
+            knex('posts')
+                .innerJoin('comments', 'posts.id', 'comments.post_id')
+                .where('posts.id', data.posts.id)
+                .then((comments)=>{
+                    resolve({ user:data.user, posts:data.posts, comments:comments});
+                })
+                .catch((err)=>{
+                    reject({error:err});
+                });
+        });
+    };
+    
+    let onFatchActions=(data)=>{
+        return Promise((resolve, reject)=>{
+            knex('posts')
+                .innerJoin('actions', 'posts.id', 'actions.post_id')
+                .where('posts.id', data.posts.id)
+                .then((actions)=>{
+                    resolve({posts:data.posts, user:data.user, comments:data.comments, actions:actions});
+                })
+                .catch((err)=>{
+                    reject({error:err});
+                });
+        });
+    };
+
+    let onRender = (data) => {
         knex()
         .select('role')
         .from('roles')
@@ -81,7 +109,9 @@ router.get('/', authorizedUser, function(req, res, next) {
         .then((role)=>{
             res.render('profile/'+role.role+'/profile',{
                 user:data.user,
-                posts:data.posts
+                posts:data.posts,
+                comments:data.comments,
+                actions:data.actions
             });
         });    
     };

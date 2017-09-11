@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
         table.boolean('active').defaultTo(1);
     };
 
-    return knex.schema.createTableIfNotExists('action_types', onDefinedSession); 
+    return knex.schema.createTableIfNotExists('action_types', onDefinedAction); 
 };
 
 exports.down = function(knex, Promise) {

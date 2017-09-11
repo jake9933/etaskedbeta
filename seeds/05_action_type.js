@@ -5,14 +5,12 @@
 
  exports.seed = function(knex) {
      // Deletes ALL existing entries
-    /*return knex('roles')
+    return knex('action_types')
         .del()
         .then(function() {
-            const roles = [{
-                role: 'mentor'
-            }, {
-                role: 'mentee'
+            const action_types = [{
+                type: 'like'
             }];
-            return knex('roles').insert(roles);
-        });*/
+            return knex('action_types').insert(action_types);
+        });
  };
