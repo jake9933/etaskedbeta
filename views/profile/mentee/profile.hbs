@@ -173,7 +173,7 @@
 									<svg class="etsk-trophy-icon"><use xlink:href="icons/icons.svg#etsk-trophy-icon"></use></svg>
 								</a>
 
-								<a href="#" class="btn btn-control" id="postLike{{key}}">
+								<a href="#" class="btn btn-control" name="postLike" id="{{value.id}}">
 									<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
 								</a>
 
@@ -1303,5 +1303,15 @@
 			}, 'json');
 		});
 		
+		$('a[name="postLike"]').click(function(e){
+			e.preventDefault();
+			debugger
+			$.post('/posts/like', {post_id:$(this).attr('id')}, function(data){
+				console.log(data)
+				$('a[name="postLike"]').addClass('active');	
+			}, 'json');
+
+		});
+
 	});
 </script>

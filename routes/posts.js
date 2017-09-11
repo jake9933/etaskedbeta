@@ -30,7 +30,7 @@ let getSession = (session)=>{
   });
 };
 
-let userPromise = (session) => { 
+let userPromise = (session) => {
   
     return new Promise((resolve, reject) => {
         var query = {
@@ -86,10 +86,38 @@ router.get('/', authorizedUser, function(req, res, next) {
         .innerJoin('posts', 'users.id', 'posts.user_id')
         .where('users.id', user.id)
         .then(function(posts) {
-          resolve(posts)
+          resolve({posts:posts, user:user})
         })
         .catch((err)=>{
-          reject(err);
+          reject({error:err, user:user});
+        });
+    });
+  };
+
+  let onFetchCommnets=(data)=>{
+    return Promise((resolve, reject)=>{
+      knex('posts')
+        .innerJoin('comments', 'posts.id', 'comments.post_id')
+        .where('posts.id', data.posts.id)
+        .then((comments)=>{
+          resolve({posts:data.posts, user:data.user, comments:comments});
+        })
+        .catch((err)=>{
+          reject({error:err});
+        });
+    });
+  };
+
+  let onFatchActions=(data)=>{
+    return Promise((resolve, reject)=>{
+      knex('posts')
+        .innerJoin('actions', 'posts.id', 'actions.post_id')
+        .where('posts.id', data.posts.id)
+        .then((actions)=>{
+          resolve({posts:posts, user:user, comments:comments, actions:actions});
+        })
+        .catch((err)=>{
+          reject({error:err});
         });
     });
   };
@@ -102,19 +130,21 @@ router.get('/', authorizedUser, function(req, res, next) {
   };
   
   getSession
-  .then(userPromise)
-  .then(onFetchPosts)
-  .then(onRender)
-  .catch((err)=>{
-    console.log('getPosts')
-    console.log(err)
-  });
+    .then(userPromise)
+    .then(onFetchPosts)
+    //.then(onFetchCommnets)
+    //.then(onFatchActions)
+    .then(onRender)
+    .catch((err)=>{
+      console.log('getPosts')
+      console.log(err)
+    });
 
 });
 
 router.get('/new', authorizedUser, function(req, res, next) {
   res.render('new')
-})
+});
 
 router.post('/', authorizedUser, function(req, res, next) {
 
@@ -149,7 +179,6 @@ router.post('/', authorizedUser, function(req, res, next) {
     .then(onResponse);
 
 });
-
 
 router.get('/:id', function(req, res, next) {
   let postID = req.params.id;
@@ -199,9 +228,9 @@ router.get('/:id', function(req, res, next) {
   //                   postID: postID
   //                 })
   //               })
-})
+});
 
-router.post('/:id', authorizedUser, function(req, res, next) {
+/*router.post('/:id', authorizedUser, function(req, res, next) {
   let postID = req.params.id;
   knex('comments').insert({
     content: req.body.content,
@@ -210,14 +239,14 @@ router.post('/:id', authorizedUser, function(req, res, next) {
   }).then(function() {
     res.redirect('/posts/' + postID);
   })
-})
+});*/
 
 router.delete('/:id', authorizedAdmin, function(req, res, next) {
   let postID = req.params.id;
   knex('posts').where('id', postID).del().then(function(deleted) {
     res.redirect('/posts')
   })
-})
+});
 
 router.put('/:id', authorizedAdmin, function(req, res, next) {
   let postID = req.params.id;
@@ -227,14 +256,118 @@ router.put('/:id', authorizedAdmin, function(req, res, next) {
   }).then(function(post) {
     res.redirect('/posts/' + postID)
   })
-})
+});
 
-// router.put(':id/comments', authorizedAdmin, function (req, res, next) {
-//   let postID = req.params.id;
-//   knex('comments').where('post_id', postID).update({
-//     content: req.body.content
-//   }).then(function (comment){
-//     res.redirect('/posts/' + postID)
-//   })
-// })
+router.post('/like', authorizedUser, function(req, res, next){
+ 
+  let onCreateLike = (user) => {
+    return new Promise((resolve, reject)=>{
+
+      let postId = req.body.post_id;
+      let action_type = req.body.action_type;
+
+      let obj = {
+        post_id : postId,
+        user_id : user.id,
+        action_id : action_type || 1
+      };
+
+      knex('actions')
+        .insert(obj)
+        .then((data)=>{
+          resolve(data);
+        })
+        .catch((err)=>{
+          reject(err);
+        });
+    });
+  };
+
+  let onResponse = (data) => {
+    console.log('data');
+    console.log(data);
+    return res.json(data);
+  };
+
+  getSession(req.session.id)
+    .then(userPromise)
+    .then(onCreateLike)
+    .then(onResponse);
+
+});
+
+router.put('/like/:id', function(req, res, next){
+
+  let postId=req.params.id; 
+
+  let unLike = (user) => {
+    return new Promise((resolve, reject)=>{      
+      let query = {
+        post_id : postId,
+        user_id : user.id,
+        active : 1
+      };
+
+      let update ={
+        active:0
+      };
+
+      knex('actions')
+        .where(obj)
+        .update(update)
+        .then((data)=>{
+          resolve(data);
+        })
+        .catch((err)=>{
+          reject(err);
+        });
+    });
+  };
+
+  let onResponse=(data)=>{
+    return res.json(data);
+  };
+  
+  getSession(req.session.id)
+  .then(userPromise)
+  .then(unLike)
+  .then(onResponse);
+
+});
+
+router.post(':id/comments', authorizedAdmin, function (req, res, next) {
+   let postID = req.params.id;
+   let comment = req.params.comment;
+
+   let onCreatePostCommnent=(user)=>{
+    return new Promise((resolve, reject)=>{
+      
+      let obj={
+        content:comment,
+        user_id:user.id,
+        post_id:postID
+      };
+
+      knex('comments')
+        .insert(obj)
+        .then((comment)=>{
+          resolve(comment);
+        })
+        .catch((err)=>{
+          reject(err);
+        });
+    }); 
+   };
+
+   let onResponse=(data)=>{
+     return res.json(data);
+   };
+
+   getSession(req.session.id)
+   .then(userPromise)
+   .then(onCreatePostCommnent)
+   .then(onResponse);
+
+});
+
 module.exports = router;
