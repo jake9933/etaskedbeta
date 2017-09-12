@@ -76,7 +76,7 @@ function authorizedAdmin(req, res, next) {
       res.render('admin')
     }
   })
-}
+};
 
 router.get('/', authorizedUser, function(req, res, next) {
 
@@ -230,7 +230,8 @@ router.get('/:id', function(req, res, next) {
   //               })
 });
 
-/*router.post('/:id', authorizedUser, function(req, res, next) {
+/*
+  router.post('/:id', authorizedUser, function(req, res, next) {
   let postID = req.params.id;
   knex('comments').insert({
     content: req.body.content,
@@ -239,7 +240,8 @@ router.get('/:id', function(req, res, next) {
   }).then(function() {
     res.redirect('/posts/' + postID);
   })
-});*/
+});
+*/
 
 router.delete('/:id', authorizedAdmin, function(req, res, next) {
   let postID = req.params.id;
@@ -333,11 +335,11 @@ router.put('/like/:id', function(req, res, next){
   .then(unLike)
   .then(onResponse);
 
-});
+}); 
 
-router.post(':id/comments', authorizedAdmin, function (req, res, next) {
-   let postID = req.params.id;
-   let comment = req.params.comment;
+router.post('/comments', function (req, res, next) {
+   let postId = req.body.post_id;
+   let comment = req.body.comment;
 
    let onCreatePostCommnent=(user)=>{
     return new Promise((resolve, reject)=>{
@@ -345,9 +347,9 @@ router.post(':id/comments', authorizedAdmin, function (req, res, next) {
       let obj={
         content:comment,
         user_id:user.id,
-        post_id:postID
+        post_id:postId
       };
-
+            
       knex('comments')
         .insert(obj)
         .then((comment)=>{
@@ -366,8 +368,50 @@ router.post(':id/comments', authorizedAdmin, function (req, res, next) {
    getSession(req.session.id)
    .then(userPromise)
    .then(onCreatePostCommnent)
-   .then(onResponse);
+   .then(onResponse)
+   .catch(onResponse)
 
+});
+
+router.put('/:id/comments/:id_comment', authorizedUser, function(req, res, next){
+  let postId = req.params.id;
+  let commentId = req.params.comment;
+
+  let onUpdateComments=()=>{
+    return new Promise((resolve, reject)=>{
+      let query = {
+        id:commentId,
+        post_id:postId
+      };
+
+      let update = {
+        content:req.body.content
+      };
+
+      let onResponse=(data)=>{
+        resolve(data);
+      };
+
+      let onFail=(err)=>{
+        reject(err);
+      };
+
+      knex('comments')
+      .where(query)
+      .update(update)
+      .then(onResponse)
+      .catch(onFail);
+
+    });
+  };
+
+  let onResponse=(data)=>{
+    return res.json(data);
+  };
+
+  getSession(req.session.id)
+    .then(onUpdateComments)
+    .then(onResponse);
 });
 
 module.exports = router;

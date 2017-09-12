@@ -154,7 +154,7 @@
 
 
 								<div class="comments-shared">
-									<a href="#" class="post-add-icon inline-items">
+									<a href="#" class="post-add-icon inline-items" name="postComment" id="{{value.id}}">
 										<svg class="etsk-speech-balloon-icon"><use xlink:href="icons/icons.svg#etsk-speech-balloon-icon"></use></svg>
 										<span>17</span>
 									</a>
@@ -169,15 +169,11 @@
 
 							<div class="control-block-button post-control-button">
 
-								<a href="#" class="btn btn-control featured-post">
-									<svg class="etsk-trophy-icon"><use xlink:href="icons/icons.svg#etsk-trophy-icon"></use></svg>
-								</a>
-
 								<a href="#" class="btn btn-control" name="postLike" id="{{value.id}}">
 									<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
 								</a>
 
-								<a href="#" class="btn btn-control">
+								<a href="#" class="btn btn-control" name="postComment" id="{{value.id}}">
 									<svg class="etsk-comments-post-icon"><use xlink:href="icons/icons.svg#etsk-comments-post-icon"></use></svg>
 								</a>
 
@@ -187,7 +183,40 @@
 
 							</div>
 						</article>
-					</div>
+						<ul class="comments-list">
+							{{#each value.comments as |v k|}}
+							<li>
+								<div class="post__author author vcard inline-items">
+									<img src="{{v.avatar}}" alt="author">
+
+									<div class="author-date">
+										<a class="h6 post__author-name fn" href="#">{{v.first_name}} {{v.last_name}}</a>
+										<div class="post__date">
+											<time class="published" datetime="2017-03-24T18:18">
+												5 mins ago
+											</time>
+										</div>
+									</div>
+
+									<a href="#" class="more">
+										<svg class="etsk-three-dots-icon">
+											<use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use>
+										</svg>
+									</a>
+									
+								</div>
+
+								<p>{{v.body}}</p>
+
+								<a href="#" class="post-add-icon inline-items">
+									<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+									<span>8</span>
+								</a>
+								<a href="#" class="reply">Reply</a>
+							</li>
+							{{/each}}
+						</ul>
+					</div>					
 				{{/each}}
 				<!--
 				<div class="ui-block">
@@ -650,9 +679,6 @@
 							</ul>
 
 						</li>
-
-
-
 						<li>
 							<div class="post__author author vcard inline-items">
 								<img src="img/avatar4-sm.jpg" alt="author">
@@ -961,7 +987,6 @@
 					</li>
 				</ul>
 			</div>
-
 
 		</div>
 		
@@ -1295,7 +1320,7 @@
 		$('button#publish').click(function(){
 			var obj = {
 				title: $('input#title').val(),
-        		body: $('textarea#body').val(),
+        		body: $('textarea#body').val()
 			};
 			$.post('/posts', obj, function(data){
 				console.log(data)
@@ -1305,12 +1330,37 @@
 		
 		$('a[name="postLike"]').click(function(e){
 			e.preventDefault();
-			debugger
+			console.log($(this))
 			$.post('/posts/like', {post_id:$(this).attr('id')}, function(data){
-				console.log(data)
+				console.log(data);
 				$('a[name="postLike"]').addClass('active');	
 			}, 'json');
 
+		});
+
+		$('a[name="postComment"]').click(function(e){
+			e.preventDefault();
+			var id = $(this).attr('id');
+			$($(this).parent()).after(
+				'<div class="col-md-12 col-sm-12 col-xs-12" id="postCommentContent">'+					
+					'<div class="col-md-12">'+
+						'<form>'+
+							'<input placeholder="Post comment" class="form-control" id="comment" name="comment" required="required"/>'+
+							'<button type="button" class="button" id="'+id+'" name="saveComment">publish</button>'+
+						'<form>'+
+					'</div>'+
+				'</div>');
+			
+			$('button[name="saveComment"]').click(function(e){
+				e.preventDefault();
+				var obj = {
+					post_id:$(this).attr('id'), 
+					comment: $('input#comment').val()
+				};
+				$.post('/posts/comments', obj, function(data){					
+					$('div#postCommentContent').remove();
+				});
+			});
 		});
 
 	});
