@@ -60,10 +60,19 @@ router.get('/', authorizedUser, function(req, res, next) {
    
     let onFetchPosts=(user)=>{
         return new Promise((resolve, reject)=>{
+            let query = {
+                'users.id':user.id//,
+                //'actions.action_id': 1
+            };
             knex('users')
                 .innerJoin('posts', 'users.id', 'posts.user_id')
-                .where('users.id', user.id)
+                .where(query)
                 .then(function(posts) {
+
+                    for(var i=0;i<posts.length;i++){
+                        var likes = knex('actions').where({'actions.post_id':posts[i].id, 'user.id':user.id}).count();
+                        posts[i]['likes']=likes;
+                    }
                     resolve({user:user, posts:posts})
                 })
                 .catch((err)=>{
@@ -73,16 +82,36 @@ router.get('/', authorizedUser, function(req, res, next) {
     };
 
     let onFetchCommnets=(data)=>{
-        return Promise((resolve, reject)=>{
-            knex('posts')
-                .innerJoin('comments', 'posts.id', 'comments.post_id')
-                .where('posts.id', data.posts.id)
-                .then((comments)=>{
-                    resolve({ user:data.user, posts:data.posts, comments:comments});
-                })
-                .catch((err)=>{
-                    reject({error:err});
-                });
+        return new Promise((resolve, reject)=>{
+            let posts = data.posts.slice();
+            let users = data.user;
+
+            function getComment(index, post, callback){
+                knex('posts')
+                    .innerJoin('comments', 'posts.id', 'comments.post_id')
+                    .innerJoin('users', 'comments.user_id', 'users.id')
+                    .where('posts.id', post.id)
+                    .then((comments)=>{
+                        callback(index, comments);
+                    })
+                    .catch((err)=>{
+                        reject({error:err});
+                    });
+            };
+            
+            function iteratePost(data, callback){
+                for(var i=0; i<data.length; i++){
+                    getComment(i, data[i], function(index, comments){
+                        posts[index]['comments']=comments.slice();
+                    });
+                };
+                callback(posts);
+            };
+
+            iteratePost(data.posts, function(data){
+                resolve({ user:users, posts:data});
+            });
+
         });
     };
     
@@ -92,7 +121,7 @@ router.get('/', authorizedUser, function(req, res, next) {
                 .innerJoin('actions', 'posts.id', 'actions.post_id')
                 .where('posts.id', data.posts.id)
                 .then((actions)=>{
-                    resolve({posts:data.posts, user:data.user, comments:data.comments, actions:actions});
+                    resolve({posts:data.posts, user:data.user, actions:actions});
                 })
                 .catch((err)=>{
                     reject({error:err});
@@ -106,19 +135,23 @@ router.get('/', authorizedUser, function(req, res, next) {
         .from('roles')
         .where('id',data.user.role_id)
         .first()
-        .then((role)=>{
-            res.render('profile/'+role.role+'/profile',{
+        .then((role)=>{         
+            var obj={
                 user:data.user,
                 posts:data.posts,
                 comments:data.comments,
                 actions:data.actions
-            });
+            };
+            console.log('********************')
+            console.log(obj)
+            res.render('profile/'+role.role+'/profile', obj);
         });    
     };
 
     getSession(req.session.id)
         .then(userPromise)
         .then(onFetchPosts)
+        .then(onFetchCommnets)
         .then(onRender)
         .catch((err)=>{
             console.log('ERROR:')
