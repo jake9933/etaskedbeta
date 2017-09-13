@@ -1355,3 +1355,7 @@ transition: 1s opacity; }
 /*  html { background: url('/img/video/video-bg.jpg') #000 no-repeat center center fixed; }*/
 /*  #bgvid { display: none; }*/
 /*}*/
+
+.like{
+  background-color:#732626 !important;
+}
