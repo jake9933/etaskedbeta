@@ -154,7 +154,7 @@
 
 
 								<div class="comments-shared">
-										<a href="#" class="post-add-icon inline-items" name="postComment" id="{{value.id}}">
+										<a href="#" class="post-add-icon inline-items" name="postComment" id="{{value.id}}">\
 										<svg class="etsk-speech-balloon-icon"><use xlink:href="icons/icons.svg#etsk-speech-balloon-icon"></use></svg>
 										<span>17</span>
 									</a>
@@ -1314,6 +1314,11 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
+		$('a[data-target="#postModal"]').click(function(e){
+			e.preventDefault();
+			$('#postModal').modal();
+		});
 
 		$('button#publish').click(function(){
 			var obj = {

@@ -799,6 +799,11 @@
 
 	$(document).ready(function(){
 
+		$('a[data-target="#postModal"]').click(function(e){
+			e.preventDefault();
+			$('#postModal').modal();
+		});
+		
 		$('button#publish').click(function(){
 			var obj = {
 				title: $('input#title').val(),
