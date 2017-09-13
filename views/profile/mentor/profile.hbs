@@ -279,7 +279,7 @@
 					</div>
 
 					<div class="post-thumb">
-						<img src="img/post__thumb4.jpg" alt="photo">
+						<!--<img src="img/post__thumb4.jpg" alt="photo">-->
 					</div>
 
 					<a href="#" data-toggle="modal" data-target="#blog-post-popup" class="h2 post-title">{{value.title}}.</a>
@@ -314,7 +314,7 @@
 
 
 						<div class="comments-shared">
-							<a href="#" class="post-add-icon inline-items">
+							<a href="#" class="post-add-icon inline-items" name="postComment" id="{{value.id}}">
 								<svg class="etsk-speech-balloon-icon"><use xlink:href="icons/icons.svg#etsk-speech-balloon-icon"></use></svg>
 								<span>121,237</span>
 							</a>
@@ -328,12 +328,15 @@
 					</div>
 
 					<div class="control-block-button post-control-button">
-
-						<a href="#" class="btn btn-control"  name="postLike" id="{{value.id}}">
+						{{#if value.likes}}
+							<a href="#" class="btn btn-control like" name="postLike" id="{{value.id}}">
+						{{else}}
+							<a href="#" class="btn btn-control" name="postLike" id="{{value.id}}">
+						{{/if}}
 							<svg class="etsk-like-post-icon"><use xlink:href="icons/icons.svg#etsk-like-post-icon"></use></svg>
 						</a>
 
-						<a href="#" class="btn btn-control">
+						<a href="#" class="btn btn-control" name="postComment" id="{{value.id}}">
 							<svg class="etsk-comments-post-icon"><use xlink:href="icons/icons.svg#etsk-comments-post-icon"></use></svg>
 						</a>
 
@@ -344,6 +347,39 @@
 					</div>
 
 				</article>
+				<ul class="comments-list" name="{{value.id}}">
+					{{#each value.comments as |v k|}}
+					<li>
+						<div class="post__author author vcard inline-items">
+							<img src="{{v.avatar}}" alt="author">
+
+							<div class="author-date">
+								<a class="h6 post__author-name fn" href="#">{{v.first_name}} {{v.last_name}}</a>
+								<div class="post__date">
+									<time class="published" datetime="2017-03-24T18:18">
+										5 mins ago
+									</time>
+								</div>
+							</div>
+
+							<a href="#" class="more">
+								<svg class="etsk-three-dots-icon">
+									<use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use>
+								</svg>
+							</a>
+							
+						</div>
+
+						<p>{{v.content}}</p>
+
+						<a href="#" class="post-add-icon inline-items">
+							<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>
+							<span>8</span>
+						</a>
+						<a href="#" class="reply">Reply</a>
+					</li>
+					{{/each}}
+				</ul>
 			</div>
 			{{/each}}
 			<!--
@@ -762,11 +798,6 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		
-		$('a[data-target="#postModal"]').click(function(e){
-			e.preventDefault();
-			$('#postModal').modal();
-		});
 
 		$('button#publish').click(function(){
 			var obj = {
@@ -774,9 +805,80 @@
         		body: $('textarea#body').val(),
 			};
 			$.post('/posts', obj, function(data){
-				console.log(data)
 				$('#postModal').modal('hide');
 			}, 'json');
+		});
+		
+		$(document).find('a[name="postLike"]').click(function(e){
+			e.preventDefault();
+			var _this = $(this);
+			if($(this).hasClass('like')){
+				$.ajax({
+					url: '/posts/like/'+$(this).attr('id'),
+					method: 'PUT',
+					data: {},
+					success: function(data){
+						console.log(data)
+						_this.removeClass('like');
+					}
+				});
+			}
+			else{
+				$.post('/posts/like', {post_id:$(this).attr('id')}, function(data){
+					console.log(data);
+					_this.addClass('like');
+				}, 'json');
+			}
+		});
+
+		$(document).find('a[name="postComment"]').click(function(e){
+			e.preventDefault();
+			var id = $(this).attr('id');
+			$($(this).parent()).after(
+				'<div class="col-md-12 col-sm-12 col-xs-12" id="postCommentContent">'+					
+					'<div class="col-md-12">'+
+						'<form>'+
+							'<input placeholder="Post comment" class="form-control" id="comment" name="comment" required="required"/>'+
+							'<button type="button" class="button" id="'+id+'" name="saveComment">publish</button>'+
+						'<form>'+
+					'</div>'+
+				'</div>');
+			
+			$('button[name="saveComment"]').click(function(e){
+				e.preventDefault();
+				var obj = {
+					post_id:$(this).attr('id'), 
+					comment: $('input#comment').val()
+				};
+				$.post('/posts/comments', obj, function(data){
+					
+					 $('ul.comments-list[name="'+id+'"]').append(
+						'<li>'+
+							'<div class="post__author author vcard inline-items">'+
+								'<img src="'+data.avatar+'" alt="author">'+
+								'<div class="author-date">'+
+									'<a class="h6 post__author-name fn" href="#">'+data.first_name+' '+data.last_name+'</a>'+
+									'<div class="post__date">'+
+										'<time class="published" datetime="2017-03-24T18:18"></time>'+
+									'</div>'+
+								'</div>'+
+								'<a href="#" class="more">'+
+									'<svg class="etsk-three-dots-icon">'+
+										'<use xlink:href="icons/icons.svg#etsk-three-dots-icon"></use>'+
+									'</svg>'+
+								'</a>'+
+							'</div>'+
+							'<p>'+$('input#comment').val()+'</p>'+
+							'<a href="#" class="post-add-icon inline-items">'+
+								'<svg class="etsk-heart-icon"><use xlink:href="icons/icons.svg#etsk-heart-icon"></use></svg>'+
+								'<span>8</span>'+
+							'</a>'+
+							'<a href="#" class="reply">Reply</a>'+
+						'</li>'
+					);
+					$('div#postCommentContent').remove();
+				});
+			});
 		});
 		
 	});

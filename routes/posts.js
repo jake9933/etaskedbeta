@@ -268,20 +268,30 @@ router.post('/like', authorizedUser, function(req, res, next){
       let postId = req.body.post_id;
       let action_type = req.body.action_type;
 
-      let obj = {
+      let objToSend = {
         post_id : postId,
         user_id : user.id,
         action_id : action_type || 1
       };
 
       knex('actions')
-        .insert(obj)
-        .then((data)=>{
-          resolve(data);
-        })
-        .catch((err)=>{
-          reject(err);
+        .whereNot(objToSend)
+        .first()
+        .then(function(data){
+          if(data){
+            resolve(data);
+            return;
+          }
+          knex('actions')
+            .insert(objToSend)
+            .then((data)=>{
+              resolve(data);
+            })
+            .catch((err)=>{
+              reject(err);
+            });
         });
+      
     });
   };
 
@@ -315,7 +325,7 @@ router.put('/like/:id', function(req, res, next){
       };
 
       knex('actions')
-        .where(obj)
+        .where(query)
         .update(update)
         .then((data)=>{
           resolve(data);
@@ -352,8 +362,13 @@ router.post('/comments', function (req, res, next) {
             
       knex('comments')
         .insert(obj)
-        .then((comment)=>{
-          resolve(comment);
+        .then((commentinsert)=>{
+          knex('comments')
+          .where(obj)
+          .first()
+          .then(function(comment){
+            resolve(user);
+          });
         })
         .catch((err)=>{
           reject(err);

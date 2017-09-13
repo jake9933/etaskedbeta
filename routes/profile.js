@@ -69,9 +69,19 @@ router.get('/', authorizedUser, function(req, res, next) {
                 .where(query)
                 .then(function(posts) {
 
+                    let getLikes = function(index, post, callback){
+                        knex('actions')
+                        .where({'actions.post_id':post.id, 'actions.user_id':user.id})
+                        .count()
+                        .then((data)=>{
+                            callback(index, data[0].count);
+                        });
+                    };
+
                     for(var i=0;i<posts.length;i++){
-                        var likes = knex('actions').where({'actions.post_id':posts[i].id, 'user.id':user.id}).count();
-                        posts[i]['likes']=likes;
+                        getLikes(i, posts[i], function(index, likes){
+                            posts[index]['likes']=parseInt(likes);
+                        });                       
                     }
                     resolve({user:user, posts:posts})
                 })
@@ -142,8 +152,6 @@ router.get('/', authorizedUser, function(req, res, next) {
                 comments:data.comments,
                 actions:data.actions
             };
-            console.log('********************')
-            console.log(obj)
             res.render('profile/'+role.role+'/profile', obj);
         });    
     };
