@@ -120,12 +120,13 @@ router.post('/signup', function(req, res, next) {
 
         createAvatar
           .generateAvatar((created_avatar)=>{
-
+            console.log("---------------------");
+            console.log(created_avatar);
             rolePromise
               .then((data)=>{
-
+                console.log(data);
                 let hash = bcrypt.hashSync(req.body.hashed_password, 12);
-                
+
                 let obj = {
                   username : req.body.username,
                   hashed_password : hash,
@@ -136,7 +137,9 @@ router.post('/signup', function(req, res, next) {
                   avatar : created_avatar,
                   role_id : data.id
                 };
-     
+
+                console.log(obj);
+      
                 knex('users')
                   .insert(obj)
                   .then((d) => {

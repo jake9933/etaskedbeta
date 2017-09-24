@@ -64,3 +64,6 @@ typings/
 # Security Files
 *.pem
 etasked.pem
+
+# vscode config folder
+.vscode/

@@ -5,7 +5,7 @@
 
  exports.seed = function(knex) {
      // Deletes ALL existing entries
-    /*return knex('roles')
+    return knex('roles')
         .del()
         .then(function() {
             const roles = [{
@@ -14,5 +14,5 @@
                 role: 'mentee'
             }];
             return knex('roles').insert(roles);
-        });*/
+        });
  };

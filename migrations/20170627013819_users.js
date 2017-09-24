@@ -3,7 +3,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTableIfNotExists('users', function(table) {
-    table.increments();
+    table.increments('id').unsigned().primary();
     table.boolean('admin').defaultTo(false);
     table.string('username').unique();
     table.string('first_name');
