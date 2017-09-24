@@ -120,11 +120,8 @@ router.post('/signup', function(req, res, next) {
 
         createAvatar
           .generateAvatar((created_avatar)=>{
-            console.log("---------------------");
-            console.log(created_avatar);
             rolePromise
               .then((data)=>{
-                console.log(data);
                 let hash = bcrypt.hashSync(req.body.hashed_password, 12);
 
                 let obj = {
@@ -163,7 +160,7 @@ router.post('/signup', function(req, res, next) {
       } else{
         resolve([false,'User unknow']);
       } 
-    };
+      };
   
     getUser(req.body.username).then(saveUser).catch((err)=>{reject(err);});
 
