@@ -1,4 +1,4 @@
-# [![ETASKED](http://www.stormheart.net/assets/images/sh_github_logo.png)](http://www.etasked.com)
+(http://www.etasked.com)
 
 [![NPM](https://img.shields.io/badge/build-npm-red.svg?style=flat-square)](https://docs.npmjs.com/cli/install)
 [![Express](https://img.shields.io/badge/dependencies-express-green.svg?style=flat-square)](https://expressjs.com/)
@@ -50,9 +50,6 @@ Express is a framework built off node.js which is a platform built on Chrome's J
 A RESTful API -- also referred to as a RESTful web service -- is based on representational state transfer  technology, an architectural style and approach to communications often used in web services development.
 
 ## Team
-
-<p align="center">
-  <a href="https://github.com/nutiler"><img src="https://avatars0.githubusercontent.com/u/1874261?v=3&s=200" alt="Josh Wilson, nutiler"/></a>
   &nbsp; &nbsp;
   <a href="https://github.com/benneb1"><img src="https://avatars0.githubusercontent.com/u/29782381?v=3&s=200" alt="Jacob Handley, jake9933"/></a>
   &nbsp;&nbsp;
